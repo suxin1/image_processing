@@ -2,11 +2,11 @@ import os
 from PIL import Image
 import numpy as np
 import matplotlib.pylab as plt
-from utils.imtools import get_imlist, histeq
+from utils.imtools import get_imlist, histeq, compute_average
 
 
 imagelist = get_imlist(os.getcwd() + '/images')
-
+ssimagelist = get_imlist(os.getcwd() + '/images/square_images')
 
 def crop_and_rotate(image):
 
@@ -128,7 +128,14 @@ def im_hist_eq_2(image):
     plt.axis('off')
 
 
+def average(imlist):
+    aimage = compute_average(imlist)
+
+    plt.imshow(aimage)
+
+
 image = Image.open(imagelist[0])
 
-im_hist_eq_2(image)
+average(ssimagelist)
+
 plt.show()

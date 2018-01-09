@@ -47,7 +47,7 @@ def histeq(im, numbins=256):
 def compute_average(imlist):
     """ Compute the average of a list of images. """
     sum_im = np.array(Image.open(imlist[0]), 'f')
-    num_of_im = 0
+    num_of_im = 1
     for img in imlist[1:]:
         try:
             sum_im += np.array(Image.open(img), 'f')
@@ -58,3 +58,19 @@ def compute_average(imlist):
     averageim = sum_im / num_of_im
     return np.array(averageim, 'uint8')
 
+
+def crop_image(imname, size):
+    """
+    Image Crop
+    :param imname: String, File path of an image
+    :param size: [x1, y1, x2, y2]
+    :return:
+    """
+    image = Image.open(imname)
+    imcropped = image.crop(size)
+    strsize = '_' + str(size[2] - size[0]) + '_' + str(size[3] - size[1])
+    rename = os.path.splitext(imname)[0] + strsize + '.jpg'
+    try:
+        imcropped.save(rename)
+    except IOError:
+        print("Can't crop image " + imname)
