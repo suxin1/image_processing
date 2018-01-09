@@ -2,6 +2,7 @@ import os
 from PIL import Image
 import numpy as np
 import matplotlib.pylab as plt
+from scipy.ndimage import filters
 from utils.imtools import get_imlist, histeq, compute_average
 
 
@@ -134,8 +135,23 @@ def average(imlist):
     plt.imshow(aimage)
 
 
+def bluring(image):
+    im = np.array(image.convert('L'))
+    im2 = filters.gaussian_filter(im, 15)
+    plt.gray()
+    plt.imshow(im2)
+
+def bluring_rgb(image):
+    im = np.array(image)
+    im2 = np.zeros(im.shape)
+    for i in range(3):
+        im2[:,:,i] = filters.gaussian_filter(im[:,:,i], 30)
+    im2 = np.array(im2, 'uint8')
+    plt.imshow(im2)
+
 image = Image.open(imagelist[0])
 
-average(ssimagelist)
+bluring_rgb(image)
+interaction()
 
 plt.show()

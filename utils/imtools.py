@@ -59,7 +59,7 @@ def compute_average(imlist):
     return np.array(averageim, 'uint8')
 
 
-def crop_image(imname, size):
+def crop_image(imname, box):
     """
     Image Crop
     :param imname: String, File path of an image
@@ -67,10 +67,22 @@ def crop_image(imname, size):
     :return:
     """
     image = Image.open(imname)
-    imcropped = image.crop(size)
-    strsize = '_' + str(size[2] - size[0]) + '_' + str(size[3] - size[1])
+    imcropped = image.crop(box)
+    strsize = '_' + str(box[2] - box[0]) + '_' + str(box[3] - box[1])
     rename = os.path.splitext(imname)[0] + strsize + '.jpg'
     try:
         imcropped.save(rename)
     except IOError:
         print("Can't crop image " + imname)
+
+
+def select_crop(impath):
+    image = Image.open(impath)
+
+    aimage = np.array(image)
+    plt.figure()
+    plt.imshow(aimage)
+    points = plt.ginput(2)
+    box = np.array(points, 'i').flatten()
+
+    crop_image(impath, box)
