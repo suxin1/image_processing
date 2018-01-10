@@ -11,7 +11,7 @@ imlist = get_imlist(os.getcwd() + "/images")
 
 def derivatives(image):
     im = np.array(image.convert('L'))
-    sigma = 2
+    sigma = 1
 
     imx = np.zeros(im.shape)
     # filters.sobel(im, 1, imx)
@@ -21,7 +21,7 @@ def derivatives(image):
     # filters.sobel(im, 0, imy)
     filters.gaussian_filter(im, (sigma, sigma), (1, 0), imy)
     magnitude = np.sqrt(imx**2 + imy**2)
-    magnitude = 255 - magnitude
+    # magnitude = 255 - magnitude
 
     plt.figure()
     plt.gray()
@@ -40,6 +40,6 @@ def derivatives(image):
     plt.show()
 
 
-image = Image.open(imlist[2])
+image = Image.open(imlist[3])
 
 derivatives(image)
